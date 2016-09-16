@@ -13,8 +13,10 @@ module.exports = function(robot) {
     bot.reply("thinking...");
 
     wastebin.suggestItem(item, function (err, resp) {
-      if(err) console.log(err);
-      else {
+      if(err) {
+        console.log(err);
+        bot.reply("Can't find the bin. Ask again differently.");
+      } else {
         var text = "";
         var i = 0;
         var attachments = [];
