@@ -8,17 +8,20 @@
 //   None
 //
 // Commands:
-//   qword set <word> - sets the word of the week
+//   qword set <word>:<meaning> - sets the word of the week
 //   qword - returns the current word of the week
 
 var cron = require('node-cron');
 var word = null;
+var meaning = null;
 var responsible = null;
 
 module.exports = function(robot) {
   robot.respond(/(qword|word) set/i, function(bot){
     var keyword = "set ";
-    word = bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length);
+    var wordplusmeaning = (bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length)).split(":");
+    word = wordplusmeaning[0];
+    meaning = wordplusmeaning[1];
     bot.reply("Word set!");
   });
 
@@ -38,7 +41,8 @@ module.exports = function(robot) {
           {
             "fallback": word,
             "color": "#A16EFF",
-            "text": word
+            "pretext": word,
+            "text": meaning
           }
         ]
       };
@@ -47,6 +51,12 @@ module.exports = function(robot) {
   });
 
   cron.schedule('30 9 * * Monday', function(){
-    robot.messageRoom('#waste-channel', "@"+responsible+": Its time to update the word of the week")
+    var notify;
+    if(!responsible){
+      notify = ""
+    } else {
+      notify = "@"+responsible+": "
+    }
+    robot.messageRoom('#waste-channel', notify+"Its time to update the word of the week")
   });
 };
