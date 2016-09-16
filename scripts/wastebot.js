@@ -42,13 +42,13 @@ module.exports = function(robot) {
                 }
               ]
             }
-            if(bin.data.bin.toLowerCase().includes('green')){
+            if(bin.data.bin.toLowerCase().indexOf('green') !== -1){
               template.color = "#36a64f"
-            } else if (bin.data.bin.toLowerCase().includes('garbage')) {
+            } else if (bin.data.bin.toLowerCase().indexOf('garbage') !== -1) {
               template.color = "#000"
-            } else if (bin.data.bin.toLowerCase().includes('recycle')) {
+            } else if (bin.data.bin.toLowerCase().indexOf('recycle') !== -1) {
               template.color = "#00a1f2"
-            } else if (bin.data.bin.toLowerCase().includes('compost')) {
+            } else if (bin.data.bin.toLowerCase().indexOf('compost') !== -1) {
               template.color = "#8B4513"
             } else {
               template.color = "#A16EFF"
