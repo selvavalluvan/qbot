@@ -17,7 +17,8 @@
     "hubot-thesimpsons": ">= 0.0.0",
     "natural": "^0.4.0",
     "node-cron": "^1.1.2",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "twitter": "^1.4.0"
   },
   "engines": {
     "node": "0.10.x"

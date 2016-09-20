@@ -50,6 +50,17 @@ module.exports = function(robot) {
     }
   });
 
+  robot.respond(/(qword|word) remind/i, function(bot){
+    var notify;
+    if(!responsible){
+      notify = ""
+    } else {
+      notify = "@"+responsible+": "
+    }
+    robot.messageRoom('#qbot-channel', notify+"Its time to update *Word of the week*");
+    bot.reply("Notified "+notify);
+  });
+
   cron.schedule('30 9 * * Monday', function(){
     var notify;
     if(!responsible){
@@ -57,6 +68,6 @@ module.exports = function(robot) {
     } else {
       notify = "@"+responsible+": "
     }
-    robot.messageRoom('#waste-channel', notify+"Its time to update the word of the week")
+    robot.messageRoom('#qbot-channel', notify+"Its time to update *Word of the week*")
   });
 };
