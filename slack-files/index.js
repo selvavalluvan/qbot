@@ -29,7 +29,6 @@ exports.purgeFiles = function (user, callback) {
 
             // FOR EVERY FILE FOUND
             async.each(response.files, function(element, callback) {
-              callback(null);
               slack.api("files.delete", { file: element.id } , function(err, response) {
                 callback(null);
               });
