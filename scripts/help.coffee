@@ -1,1 +1,1 @@
-../hubot-help/index.coffee
+../src/hubot-help/index.coffee

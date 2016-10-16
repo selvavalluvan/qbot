@@ -10,7 +10,7 @@
 // Commands:
 //   (purge|delete|clear) files - delete all the files. Example: delete files
 
-var purge = require('../slack-files');
+var purge = require('../src/slack-files');
 
 module.exports = function(robot) {
   robot.respond(/(purge|delete|clear) files/i, function(bot){

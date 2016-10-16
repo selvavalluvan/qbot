@@ -4,7 +4,7 @@
 // Commands:
 //   hubot throw paper cup - Responds with list of matched items with bins and more suggestions
 
-var wastebin = require('../waste-wizard');
+var wastebin = require('../src/waste-wizard');
 
 module.exports = function(robot) {
   robot.respond(/throw/i, function (bot) {
