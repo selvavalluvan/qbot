@@ -12,22 +12,32 @@
 //   qword - returns the current word of the week
 
 var cron = require('node-cron');
+var json = require('json-update');
 var word = null;
 var meaning = null;
 var responsible = null;
+var wordFile = './db/word.json';
 
 module.exports = function(robot) {
+  json.load(wordFile, function(err, obj) {
+    word = obj.word;
+    meaning = obj.meaning;
+    responsible = obj.responsible;
+  });
+
   robot.respond(/(qword|word) set/i, function(bot){
     var keyword = "set ";
     var wordplusmeaning = (bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length)).split(":");
     word = wordplusmeaning[0];
     meaning = wordplusmeaning[1];
+    json.update(wordFile, {word: word, meaning:meaning});
     bot.reply("Word set!");
   });
 
   robot.respond(/(qword|word) person/i, function(bot){
     var keyword = "person ";
     responsible = bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length);
+    json.update(wordFile, {responsible: responsible});
     bot.reply("Responsible person set!");
   });
 

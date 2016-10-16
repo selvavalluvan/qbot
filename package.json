@@ -17,6 +17,7 @@
     "hubot-scripts": "^2.17.2",
     "hubot-slack": "^4.0.5",
     "hubot-thesimpsons": ">= 0.0.0",
+    "json-update": "^3.0.0",
     "natural": "^0.4.0",
     "node-cron": "^1.1.2",
     "request-promise": "^4.1.1",
