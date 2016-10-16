@@ -10,12 +10,16 @@ module.exports = function(robot) {
   robot.respond(/throw/i, function (bot) {
     var text = bot.message.text.substr(bot.message.text.indexOf(" ") + 1);
     var item = text.match(/^throw(.*)/)[1];
+    if(item.length === 0){
+      bot.reply("Sorry, I can't understand what you said. Please check `help`");
+      return;
+    }
     bot.reply("thinking...");
 
     wastebin.suggestItem(item, function (err, resp) {
       if(err) {
         console.log(err);
-        bot.reply("Can't find the bin. Ask again differently.");
+        bot.reply("Sorry I can't find the bin. Ask something else.");
       } else {
         var text = "";
         var i = 0;

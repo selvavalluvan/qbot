@@ -26,19 +26,27 @@ module.exports = function(robot) {
   });
 
   robot.respond(/(qword|word) set/i, function(bot){
-    var keyword = "set ";
-    var wordplusmeaning = (bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length)).split(":");
-    word = wordplusmeaning[0];
-    meaning = wordplusmeaning[1];
-    json.update(wordFile, {word: word, meaning:meaning});
-    bot.reply("Word set!");
+    var keyword = "set";
+    var wordplusmeaning = (bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length)).trim().split(/\s*:\s*/);
+    if(wordplusmeaning.length !== 2){
+      bot.reply("Sorry, I can't understand what you said. Please check `help`");
+    } else {
+      word = wordplusmeaning[0];
+      meaning = wordplusmeaning[1];
+      json.update(wordFile, {word: word, meaning:meaning});
+      bot.reply("Word set!");
+    }
   });
 
   robot.respond(/(qword|word) person/i, function(bot){
-    var keyword = "person ";
-    responsible = bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length);
-    json.update(wordFile, {responsible: responsible});
-    bot.reply("Responsible person set!");
+    var keyword = "person";
+    responsible = bot.message.text.substr(bot.message.text.indexOf(keyword) + keyword.length).trim();
+    if(responsible.length === 0){
+      bot.reply("Sorry, I can't understand what you said. Please check `help`");
+    } else {
+      json.update(wordFile, {responsible: responsible});
+      bot.reply("Responsible person set!");
+    }
   });
 
   robot.respond(/(qword|word)(?: of the week)?$/i, function(bot){

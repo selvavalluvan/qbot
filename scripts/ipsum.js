@@ -1,5 +1,5 @@
 // Description:
-//   Quietly's word of the week
+//   Quietly's Lorem Ipsum
 //
 // Dependencies:
 //   None
