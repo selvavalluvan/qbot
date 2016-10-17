@@ -19,11 +19,11 @@ var responsible = null;
 var wordFile = './db/word.json';
 
 module.exports = function(robot) {
-  json.load(wordFile, function(err, obj) {
-    word = obj.word;
-    meaning = obj.meaning;
-    responsible = obj.responsible;
-  });
+  // json.load(wordFile, function(err, obj) {
+  //   word = obj.word;
+  //   meaning = obj.meaning;
+  //   responsible = obj.responsible;
+  // });
 
   robot.respond(/(qword|word) set/i, function(bot){
     var keyword = "set";
