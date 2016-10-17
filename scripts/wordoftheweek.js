@@ -16,7 +16,7 @@ var json = require('json-update');
 var word = null;
 var meaning = null;
 var responsible = null;
-var wordFile = '../db/word.json';
+var wordFile = 'word.json';
 
 module.exports = function(robot) {
   json.load(wordFile, function(err, obj) {
