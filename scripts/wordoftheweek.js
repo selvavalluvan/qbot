@@ -12,18 +12,18 @@
 //   qword - returns the current word of the week
 
 var cron = require('node-cron');
-var json = require('json-update');
+// var json = require('json-update');
 var word = null;
 var meaning = null;
 var responsible = null;
-var wordFile = 'word.json';
+// var wordFile = 'word.json';
 
 module.exports = function(robot) {
-  json.load(wordFile, function(err, obj) {
-    word = obj.word;
-    meaning = obj.meaning;
-    responsible = obj.responsible;
-  });
+  // json.load(wordFile, function(err, obj) {
+  //   word = obj.word;
+  //   meaning = obj.meaning;
+  //   responsible = obj.responsible;
+  // });
 
   robot.respond(/(qword|word) set/i, function(bot){
     var keyword = "set";
@@ -33,7 +33,7 @@ module.exports = function(robot) {
     } else {
       word = wordplusmeaning[0];
       meaning = wordplusmeaning[1];
-      json.update(wordFile, {word: word, meaning:meaning});
+      // json.update(wordFile, {word: word, meaning:meaning});
       bot.reply("Word set!");
     }
   });
@@ -44,7 +44,7 @@ module.exports = function(robot) {
     if(responsible.length === 0){
       bot.reply("Sorry, I can't understand what you said. Please check `help`");
     } else {
-      json.update(wordFile, {responsible: responsible});
+      // json.update(wordFile, {responsible: responsible});
       bot.reply("Responsible person set!");
     }
   });
