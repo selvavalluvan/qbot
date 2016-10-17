@@ -12,18 +12,26 @@
 //   qword - returns the current word of the week
 
 var cron = require('node-cron');
-// var json = require('json-update');
+var pg = require('pg');
 var word = null;
 var meaning = null;
 var responsible = null;
-// var wordFile = 'word.json';
+pg.defaults.ssl = true;
+var DATABASE_URL = process.env.DATABASE_URL;
 
 module.exports = function(robot) {
-  // json.load(wordFile, function(err, obj) {
-  //   word = obj.word;
-  //   meaning = obj.meaning;
-  //   responsible = obj.responsible;
-  // });
+  var client = new pg.Client(DATABASE_URL);
+  client.connect(function (err) {
+    client.query('SELECT * FROM wordoftheweek', function (err, result) {
+      var obj = result.rows[0];
+      word = obj.word;
+      meaning = obj.meaning;
+      responsible = obj.responsible;
+      client.end(function (err) {
+        if (err) throw err;
+      });
+    });
+  });
 
   robot.respond(/(qword|word) set/i, function(bot){
     var keyword = "set";
@@ -33,7 +41,15 @@ module.exports = function(robot) {
     } else {
       word = wordplusmeaning[0];
       meaning = wordplusmeaning[1];
-      // json.update(wordFile, {word: word, meaning:meaning});
+      var client = new pg.Client(DATABASE_URL);
+      client.connect(function (err) {
+        client.query('UPDATE wordoftheweek SET word=$1, meaning=$2 where id=1', [word, meaning], function () {
+          client.end(function (err) {
+            if (err) throw err;
+          });
+        });
+      });
+
       bot.reply("Word set!");
     }
   });
@@ -44,7 +60,14 @@ module.exports = function(robot) {
     if(responsible.length === 0){
       bot.reply("Sorry, I can't understand what you said. Please check `help`");
     } else {
-      // json.update(wordFile, {responsible: responsible});
+      var client = new pg.Client(DATABASE_URL);
+      client.connect(function (err) {
+        client.query('UPDATE wordoftheweek SET responsible=$1 where id=1', [responsible], function () {
+          client.end(function (err) {
+            if (err) throw err;
+          });
+        });
+      });
       bot.reply("Responsible person set!");
     }
   });
