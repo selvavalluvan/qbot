@@ -71,7 +71,6 @@ module.exports = function(robot) {
         client.end(function (err) {
           if (err) throw err;
         });
-        robot.messageRoom('#qbot-channel', jingle);
         bot.reply(jingle);
       });
     });
