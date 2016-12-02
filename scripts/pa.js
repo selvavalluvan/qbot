@@ -16,7 +16,7 @@ var jingle = null;
 var event = null;
 pg.defaults.ssl = true;
 var DATABASE_URL = process.env.DATABASE_URL;
-// DATABASE_URL = 'postgres://ragboylpzlgois:sM_mHJdPGPYWPXVMkeJEG1Lkul@ec2-54-225-89-110.compute-1.amazonaws.com:5432/d8496utacban55';
+DATABASE_URL = 'postgres://ragboylpzlgois:sM_mHJdPGPYWPXVMkeJEG1Lkul@ec2-54-225-89-110.compute-1.amazonaws.com:5432/d8496utacban55';
 var unirest = require('unirest');
 var schedule = require('node-schedule');
 
@@ -29,8 +29,9 @@ module.exports = function(robot) {
       if(obj.date){
         var date = new Date(obj.date * 1000);
         event = schedule.scheduleJob(date, function(){
-          robot.messageRoom('#qbot-channel', "@everyone "+decodeURIComponent(obj.data));
+          robot.messageRoom('#general', "@everyone  "+decodeURIComponent(obj.data));
         });
+        console.log(event);
       }
       client.end(function (err) {
         if (err) throw err;
@@ -68,7 +69,7 @@ module.exports = function(robot) {
         });
         if(event) event.cancel();
         event = schedule.scheduleJob(date, function(){
-          robot.messageRoom('#qbot-channel', "@everyone "+decodeURIComponent(jingle));
+          robot.messageRoom('#general', "@everyone  "+decodeURIComponent(jingle));
         });
         bot.reply("Cheer set!");
       });
