@@ -27,6 +27,10 @@ exports.suggestItem = function (item, callback) {
                     }
                     i++;
                     if(i === repos.length){
+                        if(proms.length === 0){
+                          wasteResponse.bins = [];
+                          callback(null, wasteResponse);
+                        }
                         Promise.all(proms).then(function (results) {
                             wasteResponse.bins = results;
                             callback(null, wasteResponse);
@@ -46,7 +50,6 @@ var findBin = function (itemId) {
             uri: 'https://recollect.net/api/areas/Vancouver/services/waste/pages/en/'+itemId+'.json?_='+Date.now(),
             json: true // Automatically parses the JSON string in the response
         };
-
         rp(options)
             .then(function (repos) {
                 var i = 0;

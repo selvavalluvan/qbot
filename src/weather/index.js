@@ -1,7 +1,8 @@
 var rp = require('request-promise');
 var Promise = require('bluebird');
 
-exports.getWeather = function (location) {
+exports.getWeather = function (params) {
+  var location = params["geo-city"] ? params["geo-city"] : "Vancouver";
   var locationQuery = escape("select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + location + "') and u='c'"),
       locationUrl = "https://query.yahooapis.com/v1/public/yql?q=" + locationQuery + "&format=json";
   return new Promise(function (resolve, reject) {
@@ -12,7 +13,6 @@ exports.getWeather = function (location) {
 
     rp(options)
       .then(function (result) {
-        console.log("here");
         resolve(result);
         // if (Array.isArray(result.query.results.channel)) {
         //   var returnMessage = result.query.results.channel[0].item.title + '\n`Current` ' + result.query.results.channel[0].item.condition.temp + ' degrees, ' + result.query.results.channel[0].item.condition.text + '\n`' + result.query.results.channel[0].item.forecast[0].day + '` High: ' + result.query.results.channel[0].item.forecast[0].high + ' Low: ' + result.query.results.channel[0].item.forecast[0].low + ', ' + result.query.results.channel[0].item.forecast[0].text + '\n`' + result.query.results.channel[0].item.forecast[1].day + '` High: ' + result.query.results.channel[0].item.forecast[1].high + ' Low: ' + result.query.results.channel[0].item.forecast[1].low + ', ' + result.query.results.channel[0].item.forecast[1].text;
