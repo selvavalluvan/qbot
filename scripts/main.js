@@ -9,17 +9,17 @@ module.exports = function (robot) {
   robot.hear('', function (bot) {
     if(bot.message.room === "C024GE81V"){
       return;
-    };
+    }
     var msg = bot.message.text.substr(("qbot ").length);
 
-    if(msg.startsWith('q:/')){
-      msg = msg.substr(("q:/").length);
-      var commands = msg.trim().split(/\s* \s*/);
-      if(commands[0] === 'leave'){
-        //TODO ADD COMMAND TYPE FUNCTIONS IN HERE. LIKE REMINDERS, LEAVE CHANNELS ETC.
-      }
-      return;
-    }
+    // if(msg.startsWith('q:/')){
+    //   msg = msg.substr(("q:/").length);
+    //   var commands = msg.trim().split(/\s* \s*/);
+    //   if(commands[0] === 'leave'){
+    //     //TODO ADD COMMAND TYPE FUNCTIONS IN HERE. LIKE REMINDERS, LEAVE CHANNELS ETC.
+    //   }
+    //   return;
+    // }
     var request = app.textRequest(msg, {
       sessionId: "QbotConversation"
     });
