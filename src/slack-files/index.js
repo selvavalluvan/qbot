@@ -28,9 +28,10 @@ exports.purgeFiles = function (user, callback) {
           slack.api("files.list", { page: n + 1, user: user }, function(err, response) {
 
             // FOR EVERY FILE FOUND
-            async.each(response.files, function(element, callback) {
+            async.each(response.files, function(element, cb) {
               slack.api("files.delete", { file: element.id } , function(err, response) {
-                callback();
+                console.log(1);
+                cb();
               });
 
             }, function(err) {
@@ -38,10 +39,12 @@ exports.purgeFiles = function (user, callback) {
             });
           });
         }, function(err, files) {
+          console.log(2);
           callback();
         });
       }
     ], function (err, result) {
+      console.log(3);
       callback();
     });
 

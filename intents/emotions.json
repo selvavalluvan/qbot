@@ -1,0 +1,43 @@
+{
+  "templates": [
+    "Aww"
+  ],
+  "userSays": [
+    {
+      "id": "46a5876e-2dde-4f09-ab51-c0c0e03b8972",
+      "data": [
+        {
+          "text": "Aww"
+        }
+      ],
+      "isTemplate": false,
+      "count": 0
+    }
+  ],
+  "id": "33470866-2863-49f8-ab67-e3bd3fac1a61",
+  "name": "qbot.smalltalk.emotions",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "speech": "Yeah! That\u0027s so cute."
+        }
+      ]
+    }
+  ],
+  "priority": 500000,
+  "cortanaCommand": {
+    "navigateOrService": "NAVIGATE",
+    "target": ""
+  },
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": []
+}
