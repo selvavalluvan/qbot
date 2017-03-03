@@ -163,7 +163,7 @@ module.exports = function (robot) {
           case 'callOut':
             var person = result.parameters['given-name'];
             var action = result.parameters['action'];
-            robot.messageRoom('#general', "Hey @" + findUser(person.toLowerCase()) + "! You've been called out for " + action);
+            // robot.messageRoom('#general', "Hey @" + findUser(person.toLowerCase()) + "! You've been called out for " + action);
             break;
           case 'generateIpsum':
             var output = loremIpsum({
