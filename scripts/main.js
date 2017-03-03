@@ -5,13 +5,11 @@ var app = apiai("14c70f1f52ed4a7fa7fe1414eee274ff");
 var qweather = require('../src/weather');
 var wastebin = require('../src/waste-wizard');
 var purge = require('../src/slack-files');
+var findUser = require('../src/findUser');
 var loremIpsum = require('lorem-ipsum');
 
 module.exports = function (robot) {
-  robot.hear('', function (bot) {
-    if(bot.message.room === "C024GE81V"){
-      return;
-    }
+  robot.respond('', function (bot) {
     var msg = bot.message.text.substr(("qbot ").length);
 
     // if(msg.startsWith('q:/')){
@@ -26,20 +24,20 @@ module.exports = function (robot) {
       sessionId: "QbotConversation"
     });
 
-    request.on('response', function(airesponse) {
+    request.on('response', function (airesponse) {
       var result = airesponse.result;
       console.log(result);
-      if(result.action.indexOf('smalltalk') !== -1){
+      if (result.action.indexOf('smalltalk') !== -1) {
         bot.send(result.fulfillment.speech);
       } else {
-        switch(result.action){
+        switch (result.action) {
           case 'getWasteBin':
-            if(!result.parameters.item){
+            if (!result.parameters.item) {
               bot.reply("Could you tell me what you want to throw?");
               break;
             }
             wastebin.suggestItem(result.parameters.item, function (err, resp) {
-              if(err) {
+              if (err) {
                 console.log(err);
                 bot.reply("Sorry I can't find the bin. Ask something else.");
               } else {
@@ -49,14 +47,14 @@ module.exports = function (robot) {
                 var reply_with_attachments = {
                   'text': ''
                 };
-                if(!resp.bins || resp.bins.length === 0){
+                if (!resp.bins || resp.bins.length === 0) {
                   bot.reply("Sorry I can't find the bin. Ask something else.");
                   return;
                 }
-                resp.bins= resp.bins.slice(0, 5);
+                resp.bins = resp.bins.slice(0, 5);
                 resp.bins.forEach(function (bin) {
 
-                  if(!bin.error && bin.data.bin){
+                  if (!bin.error && bin.data.bin) {
                     var template = {
                       "fallback": "",
                       "color": "",
@@ -66,7 +64,7 @@ module.exports = function (robot) {
                     template.fallback = "_" + bin.data.name + "_" + " : " + "*" + bin.data.bin + "*" + "\n";
                     template.pretext = bin.data.name;
                     template.text = bin.data.bin;
-                    if(bin.data.special_instruction) {
+                    if (bin.data.special_instruction) {
                       template.fields = [
                         {
                           "title": "Special Instruction",
@@ -75,7 +73,7 @@ module.exports = function (robot) {
                         }
                       ]
                     }
-                    if(bin.data.bin.toLowerCase().indexOf('green') !== -1){
+                    if (bin.data.bin.toLowerCase().indexOf('green') !== -1) {
                       template.color = "#36a64f"
                     } else if (bin.data.bin.toLowerCase().indexOf('garbage') !== -1) {
                       template.color = "#000"
@@ -91,14 +89,14 @@ module.exports = function (robot) {
                     // text += "_" + bin.data.name + "_" + " : " + "*" + bin.data.bin + "*" + "\n"
                   }
                   i++;
-                  if(i === resp.bins.length){
+                  if (i === resp.bins.length) {
                     reply_with_attachments.text = "Check the appropriate bin below!";
                     var pretext = "";
-                    if(resp.suggestions.length > 0){
+                    if (resp.suggestions.length > 0) {
                       pretext = "More suggestions: "
                     }
                     var template = {
-                      "fallback": "_More suggestions_ : *"+resp.suggestions.join(", ")+"*",
+                      "fallback": "_More suggestions_ : *" + resp.suggestions.join(", ") + "*",
                       "pretext": pretext,
                       "text": resp.suggestions.join(", ")
                     };
@@ -162,9 +160,14 @@ module.exports = function (robot) {
               else bot.reply("All of your files have been cleared. Yay!");
             });
             break;
+          case 'callOut':
+            var person = result.parameters['given-name'];
+            var action = result.parameters['action'];
+            robot.messageRoom('#qbot-channel', "Hey @" + findUser(person.toLowerCase()) + "! You've been called out for " + action);
+            break;
           case 'generateIpsum':
             var output = loremIpsum({
-            count: result.parameters.number     // Number of words, sentences, or paragraphs to generate.
+              count: result.parameters.number     // Number of words, sentences, or paragraphs to generate.
               , units: 'paragraphs'            // Generate words, sentences, or paragraphs.
               , sentenceLowerBound: 5         // Minimum words per sentence.
               , sentenceUpperBound: 15        // Maximum words per sentence.
@@ -196,7 +199,7 @@ module.exports = function (robot) {
       }
     });
 
-    request.on('error', function(error) {
+    request.on('error', function (error) {
       bot.reply("I'm sorry. I didn't quite grasp what you just said.");
     });
 
