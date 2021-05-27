@@ -84,7 +84,7 @@ To use a package, check the package's documentation, but in general it is:
 1. Use `npm install --save` to add the package to `package.json` and install it
 2. Add the package name to `external-scripts.json` as a double quoted string
 
-You can review `external-scripts.json` to see what is included by default.
+You can review `external-scripts.json` to see what is included by default test.
 
 ##### Advanced Usage
 
